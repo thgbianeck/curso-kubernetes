@@ -2,5 +2,25 @@ server:
   port: 8002
 
 spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/msvc_cursos
+    username: postgres
+    password: developer2021
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQL10Dialect
+    generate-ddl: true
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
   application:
     name: msvc-cursos
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug

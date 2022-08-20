@@ -2,6 +2,8 @@ server:
   port: 8001
 
 spring:
+  application:
+    name: msvc-usuarios
   datasource:
     url: jdbc:mysql://localhost:3306/msvc_usuarios?serverTimezone=America/Sao_Paulo&allowPublicKeyRetrieval=false
     username: root
@@ -11,8 +13,6 @@ spring:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     generate-ddl: true
 
-  application:
-    name: msvc-usuarios
 
 logging:
   level:
