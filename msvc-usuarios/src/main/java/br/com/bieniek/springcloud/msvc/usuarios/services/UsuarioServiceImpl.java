@@ -1,7 +1,9 @@
 package br.com.bieniek.springcloud.msvc.usuarios.services;
 
+import br.com.bieniek.springcloud.msvc.usuarios.clients.CursoClienteRest;
 import br.com.bieniek.springcloud.msvc.usuarios.models.entity.Usuario;
 import br.com.bieniek.springcloud.msvc.usuarios.repositories.UsuarioRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,8 +15,11 @@ public class UsuarioServiceImpl implements UsuarioService{
 
     private final UsuarioRepository repository;
 
-    public UsuarioServiceImpl(UsuarioRepository repository) {
+    private final CursoClienteRest client;
+
+    public UsuarioServiceImpl(UsuarioRepository repository, CursoClienteRest client) {
         this.repository = repository;
+        this.client = client;
     }
 
     @Override
@@ -23,8 +28,8 @@ public class UsuarioServiceImpl implements UsuarioService{
         return (List<Usuario>) repository.findAll();
     }
 
-    @Override
     @Transactional(readOnly = true)
+    @Override
     public Optional<Usuario> porId(Long id) {
         return repository.findById(id);
     }
@@ -39,10 +44,16 @@ public class UsuarioServiceImpl implements UsuarioService{
     @Transactional
     public void eliminar(Long id) {
         repository.deleteById(id);
+        client.eliminarCursoUsuarioPorId(id);
     }
 
     @Override
     @Transactional(readOnly = true)
+    public List<Usuario> listarPorIds(Iterable<Long> ids) {
+        return (List<Usuario>) repository.findAllById(ids);
+    }
+
+    @Override
     public Optional<Usuario> porEmail(String email) {
         return repository.porEmail(email);
     }
